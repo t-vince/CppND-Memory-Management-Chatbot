@@ -48,22 +48,20 @@ ChatBot::~ChatBot() // 1 : destructor
 // 2 : copy constructor
 ChatBot::ChatBot(const ChatBot &source)
 {
-    std::cout << "ChatBot COPYING content of instance " << &source << " to instance " << this << std::endl;
+    std::cout << "ChatBot Copy Constructor" << std::endl;
 
-    if (source._image != NULL) { // wxWidgets uses NULL instead of nullptr
-        _image = new wxBitmap(*source._image);
-    } else {
-        _image = NULL;
-    }
+    _image = new wxBitmap();
+    *_image = *source._image;
 
     _chatLogic = source._chatLogic;
+    _chatLogic->SetChatbotHandle(this);
     _rootNode = source._rootNode;
 }
 
 // 3 : copy assignment operator
 ChatBot &ChatBot::operator=(const ChatBot &source)
 {
-    std::cout << "ChatBot COPYING (assign) content of instance " << &source << " to instance " << this << std::endl;
+    std::cout << "ChatBot Copy Assignment Operator" << std::endl;
 
     if (this == &source) {
         return *this;
@@ -73,8 +71,10 @@ ChatBot &ChatBot::operator=(const ChatBot &source)
         delete _image;
     }
 
-    _image = source._image;
+    _image = new wxBitmap();
+    *_image = *source._image;
     _chatLogic = source._chatLogic;
+    _chatLogic->SetChatbotHandle(this);
     _rootNode = source._rootNode;
 
     return *this;
@@ -83,10 +83,11 @@ ChatBot &ChatBot::operator=(const ChatBot &source)
 // 4 : move constructor
 ChatBot::ChatBot(ChatBot &&source)
 {
-    std::cout << "ChatBot MOVING (c’tor) instance " << &source << " to instance " << this << std::endl;
+    std::cout << "ChatBot Move Constructor" << std::endl;
 
     _image = source._image;
     _chatLogic = source._chatLogic;
+    _chatLogic->SetChatbotHandle(this);
     _rootNode = source._rootNode;
 
     source._image = NULL;
@@ -97,7 +98,7 @@ ChatBot::ChatBot(ChatBot &&source)
 // 5 : move assignment operator
 ChatBot &ChatBot::operator=(ChatBot &&source)
 {
-    std::cout << "ChatBot MOVING (assign) instance " << &source << " to instance " << this << std::endl;
+    std::cout << "ChatBot Move Assignment Operator" << std::endl;
     if (this == &source) {
         return *this;
     }
@@ -108,6 +109,7 @@ ChatBot &ChatBot::operator=(ChatBot &&source)
 
     _image = source._image;
     _chatLogic = source._chatLogic;
+    _chatLogic->SetChatbotHandle(this);
     _rootNode = source._rootNode;
 
     source._image = NULL;

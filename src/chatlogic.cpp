@@ -12,44 +12,9 @@
 #include "chatlogic.h"
 
 
-ChatLogic::ChatLogic()
-{
-    //// STUDENT CODE
-    ////
+ChatLogic::ChatLogic() { }
 
-    // create instance of chatbot
-    _chatBot = new ChatBot("../images/chatbot.png");
-
-    // add pointer to chatlogic so that chatbot answers can be passed on to the GUI
-    _chatBot->SetChatLogicHandle(this);
-
-    ////
-    //// EOF STUDENT CODE
-}
-
-ChatLogic::~ChatLogic()
-{
-    //// STUDENT CODE
-    ////
-
-    // delete chatbot instance
-    delete _chatBot;
-
-    // delete all nodes // Smart pointers now
-    // for (auto it = std::begin(_nodes); it != std::end(_nodes); ++it)
-    // {
-    //     delete *it;
-    // }
-
-    // delete all edges // Smart pointers now
-    // for (auto it = std::begin(_edges); it != std::end(_edges); ++it)
-    // {
-    //     delete *it;
-    // }
-
-    ////
-    //// EOF STUDENT CODE
-}
+ChatLogic::~ChatLogic() { }
 
 template <typename T>
 void ChatLogic::AddAllTokensToElement(std::string tokenID, tokenlist &tokens, T &element)
@@ -163,7 +128,7 @@ void ChatLogic::LoadAnswerGraphFromFile(std::string filename)
                             auto edge = std::make_unique<GraphEdge>(id);
                             edge->SetChildNode((*childNode).get());
                             edge->SetParentNode((*parentNode).get());
-                            _edges.push_back(edge.get());
+                            //_edges.push_back(edge.get());
 
                             // find all keywords for current node
                             AddAllTokensToElement("KEYWORD", tokens, *edge);
@@ -216,8 +181,10 @@ void ChatLogic::LoadAnswerGraphFromFile(std::string filename)
     }
 
     // add chatbot to graph root node
-    _chatBot->SetRootNode(rootNode);
-    rootNode->MoveChatbotHere(_chatBot);
+    ChatBot chatBot = ChatBot("../images/chatbot.png");
+    chatBot.SetChatLogicHandle(this);
+    chatBot.SetRootNode(rootNode);
+    rootNode->MoveChatbotHere(std::move(chatBot));
     
     ////
     //// EOF STUDENT CODE
