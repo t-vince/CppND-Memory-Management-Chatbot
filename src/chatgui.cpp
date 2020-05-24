@@ -130,17 +130,7 @@ ChatBotPanelDialog::ChatBotPanelDialog(wxWindow *parent, wxWindowID id)
     //// EOF STUDENT CODE
 }
 
-ChatBotPanelDialog::~ChatBotPanelDialog()
-{
-    //// STUDENT CODE
-    ////
-
-    // Deletion is handled by the smart pointer
-    //delete _chatLogic;
-
-    ////
-    //// EOF STUDENT CODE
-}
+ChatBotPanelDialog::~ChatBotPanelDialog() { }
 
 void ChatBotPanelDialog::AddDialogItem(wxString text, bool isFromUser)
 {
@@ -200,17 +190,17 @@ ChatBotPanelDialogItem::ChatBotPanelDialogItem(wxPanel *parent, wxString text, b
 
     // create image and text
     _chatBotImg = new wxStaticBitmap(this, wxID_ANY, (isFromUser ? wxBitmap(imgBasePath + "user.png", wxBITMAP_TYPE_PNG) : *bitmap), wxPoint(-1, -1), wxSize(-1, -1));
-    _chatBotTxt = new wxStaticText(this, wxID_ANY, text, wxPoint(-1, -1), wxSize(150, -1), wxALIGN_CENTRE | wxBORDER_NONE);
+    _chatBotTxt = new wxStaticText(this, wxID_ANY, text, wxPoint(-1, -1), wxSize(170, -1), wxALIGN_CENTER | wxBORDER_NONE);
     _chatBotTxt->SetForegroundColour(isFromUser == true ? wxColor(*wxBLACK) : wxColor(*wxWHITE));
 
     // create sizer and add elements
     wxBoxSizer *horzBoxSizer = new wxBoxSizer(wxHORIZONTAL);
-    horzBoxSizer->Add(_chatBotTxt, 8, wxEXPAND | wxALL, 1);
-    horzBoxSizer->Add(_chatBotImg, 2, wxEXPAND | wxALL, 1);
+    horzBoxSizer->Add(_chatBotTxt, 8, wxEXPAND | wxALL, 5);
+    horzBoxSizer->Add(_chatBotImg, 2, wxEXPAND | wxALL, 5);
     this->SetSizer(horzBoxSizer);
 
     // wrap text after 150 pixels
-    _chatBotTxt->Wrap(150);
+    _chatBotTxt->Wrap(170);
 
     // set background color
     this->SetBackgroundColour((isFromUser == true ? wxT("YELLOW") : wxT("BLUE")));
