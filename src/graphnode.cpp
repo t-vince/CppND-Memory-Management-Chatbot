@@ -11,7 +11,9 @@ GraphNode::~GraphNode()
     //// STUDENT CODE
     ////
 
-    delete _chatBot; 
+    // Premature destruction
+    // Pointer is owned by chatlogic
+    //delete _chatBot; 
 
     ////
     //// EOF STUDENT CODE
