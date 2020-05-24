@@ -30,7 +30,7 @@ ChatBot::ChatBot(std::string filename)
     _image = new wxBitmap(filename, wxBITMAP_TYPE_PNG);
 }
 
-ChatBot::~ChatBot()
+ChatBot::~ChatBot() // 1 : destructor
 {
     std::cout << "ChatBot Destructor" << std::endl;
 
@@ -44,6 +44,78 @@ ChatBot::~ChatBot()
 
 //// STUDENT CODE
 ////
+
+// 2 : copy constructor
+ChatBot::ChatBot(const ChatBot &source)
+{
+    std::cout << "ChatBot COPYING content of instance " << &source << " to instance " << this << std::endl;
+
+    if (source._image != NULL) { // wxWidgets uses NULL instead of nullptr
+        _image = new wxBitmap(*source._image);
+    } else {
+        _image = NULL;
+    }
+
+    _chatLogic = source._chatLogic;
+    _rootNode = source._rootNode;
+}
+
+// 3 : copy assignment operator
+ChatBot &ChatBot::operator=(const ChatBot &source)
+{
+    std::cout << "ChatBot COPYING (assign) content of instance " << &source << " to instance " << this << std::endl;
+
+    if (this == &source) {
+        return *this;
+    }
+
+    if (_image != NULL) {
+        delete _image;
+    }
+
+    _image = source._image;
+    _chatLogic = source._chatLogic;
+    _rootNode = source._rootNode;
+
+    return *this;
+}
+
+// 4 : move constructor
+ChatBot::ChatBot(ChatBot &&source)
+{
+    std::cout << "ChatBot MOVING (c’tor) instance " << &source << " to instance " << this << std::endl;
+
+    _image = source._image;
+    _chatLogic = source._chatLogic;
+    _rootNode = source._rootNode;
+
+    source._image = NULL;
+    source._chatLogic = nullptr;
+    source._rootNode = nullptr;
+}
+
+// 5 : move assignment operator
+ChatBot &ChatBot::operator=(ChatBot &&source)
+{
+    std::cout << "ChatBot MOVING (assign) instance " << &source << " to instance " << this << std::endl;
+    if (this == &source) {
+        return *this;
+    }
+
+    if (_image != NULL) {
+        delete _image;
+    }
+
+    _image = source._image;
+    _chatLogic = source._chatLogic;
+    _rootNode = source._rootNode;
+
+    source._image = NULL;
+    source._chatLogic = nullptr;
+    source._rootNode = nullptr;
+
+    return *this;
+}
 
 ////
 //// EOF STUDENT CODE
